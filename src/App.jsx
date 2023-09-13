@@ -232,6 +232,15 @@ function App() {
         break;
     }
   };
+  const budgetHandler = (e) => {
+    const value = e.target.value;
+    if (value > 20000) {
+      alert('budget is not greater than 20000');
+      return;
+    } else {
+      setBudget(value);
+    }
+  };
   return (
     <>
       <Container maxW={'container.xl'} p={0}>
@@ -244,10 +253,10 @@ function App() {
               <FormLabel> Budget</FormLabel>
               <InputGroup>
                 <InputLeftAddon children={currency} />
-                <NumberInput value={budget} min={10} maxW={'40'}>
-                  <NumberInputField value={budget} onChange={(e) => setBudget(e.target.value < 10 ? (budget) => 10 : e.target.value)} />
+                <NumberInput defaultValue={10} min={10} max={20000} maxW={'40'}>
+                  <NumberInputField value={budget} onChange={budgetHandler} />
                   <NumberInputStepper>
-                    <NumberIncrementStepper onClick={() => setBudget(budget <= 10 ? (budget) => 10 : (budget) => Number(budget) + 1)} />
+                    <NumberIncrementStepper onClick={() => setBudget(budget > 20000 ? (budget) => 200000 : (budget) => Number(budget) + 1)} />
                     <NumberDecrementStepper onClick={() => setBudget(budget <= 10 ? (budget) => 10 : (budget) => Number(budget) - 1)} />
                   </NumberInputStepper>
                 </NumberInput>
