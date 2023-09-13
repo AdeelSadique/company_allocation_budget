@@ -20,6 +20,11 @@ import {
   IconButton,
   InputGroup,
   InputLeftAddon,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { AiFillMinusCircle, AiFillPlusCircle } from 'react-icons/ai';
 import { TiDelete } from 'react-icons/ti';
@@ -43,7 +48,7 @@ function App() {
   const plusHandler = (department) => {
     switch (department) {
       case 'f':
-        if (finance > remainingBudget) {
+        if (finance > remainingBudget || budget == 0) {
           alert(`The value cannot exceed remaining budget is ${remainingBudget}`);
           return;
         } else {
@@ -51,7 +56,7 @@ function App() {
         }
         break;
       case 'm':
-        if (marketing > remainingBudget) {
+        if (marketing > remainingBudget || budget == 0) {
           alert(`The value cannot exceed remaining budget is ${remainingBudget}`);
           return;
         } else {
@@ -59,7 +64,7 @@ function App() {
         }
         break;
       case 's':
-        if (sales > remainingBudget) {
+        if (sales > remainingBudget || budget == 0) {
           alert(`The value cannot exceed remaining budget is ${remainingBudget}`);
           return;
         } else {
@@ -67,7 +72,7 @@ function App() {
         }
         break;
       case 'hr':
-        if (hr > remainingBudget) {
+        if (hr > remainingBudget || budget == 0) {
           alert(`The value cannot exceed remaining budget is ${remainingBudget}`);
           return;
         } else {
@@ -75,7 +80,7 @@ function App() {
         }
         break;
       case 'it':
-        if (it > remainingBudget) {
+        if (it > remainingBudget || budget == 0) {
           alert(`The value cannot exceed remaining budget is ${remainingBudget}`);
           return;
         } else {
@@ -239,7 +244,14 @@ function App() {
               <FormLabel> Budget</FormLabel>
               <InputGroup>
                 <InputLeftAddon children={currency} />
-                <Input type='number' value={budget} onChange={(e) => setBudget(e.target.value)} maxW={'40'} />
+                <NumberInput value={budget} min={10} maxW={'40'}>
+                  <NumberInputField value={budget} onChange={(e) => setBudget(e.target.value < 10 ? (budget) => 10 : e.target.value)} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper onClick={() => setBudget(budget <= 10 ? (budget) => 10 : (budget) => Number(budget) + 1)} />
+                    <NumberDecrementStepper onClick={() => setBudget(budget <= 10 ? (budget) => 10 : (budget) => Number(budget) - 1)} />
+                  </NumberInputStepper>
+                </NumberInput>
+                {/* <Input type='number' value={budget} onChange={(e) => setBudget(e.target.value < 10 ? (budget) => 10 : e.target.value)} maxW={'40'} /> */}
               </InputGroup>
             </HStack>
           </FormControl>
